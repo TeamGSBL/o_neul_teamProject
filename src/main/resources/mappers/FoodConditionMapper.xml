@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gsbl.oneul.recofood.RecoFoodMapper">
+
+    <select id="selFoodList" resultType="FoodResultVO">
+        SELECT A.foodcategory AS icook, A.foodnm AS foodnm,A.foodseason AS season,
+               A.fooddiv AS dining,A.canalone AS alone,C.igdkind AS igd FROM o_food A
+        JOIN o_food_igd B
+             ON A.ifood = B.ifood
+        JOIN o_igd C
+             ON B.igdnum = C.igdnum
+        WHERE
+             <if test="icook!=null and icook.length>0">
+                <foreach collection="icook" item="item" open="A.foodcategory !="
+                separator="and" close="and">
+                    ${item}
+                </foreach>
+             </if>
+    </select>
+
+</mapper>
