@@ -1,5 +1,6 @@
 package com.gsbl.oneul.user;
 
+
 import com.gsbl.oneul.model.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -97,4 +98,5 @@ public class UserController {
         service.platformLogin(vo);
         return "redirect:/board/list";
     }
+
 }
