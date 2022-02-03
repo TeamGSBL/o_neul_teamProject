@@ -4,8 +4,12 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 
 
+
 <header>
     <div class="bg-pink">
         <h1>HEADER</h1>
+
     </div>
+
+
 </header>

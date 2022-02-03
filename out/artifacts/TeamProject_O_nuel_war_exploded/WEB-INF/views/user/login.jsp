@@ -1,17 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <link rel="shortcut icon" href="#">
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
 </head>
 <body>
-
 <form id="loginBtn" action="/user/login" method="post" data-msg="${requestScope.msg}">
     <div><input type="text" name="u_id" placeholder="아이디" value="mic"></div>
     <div><input type="password" name="u_pw" placeholder="비밀번호" value="1212"></div>
@@ -104,4 +102,3 @@
 <div><a href="/user/google">구글 아이디로 로그인</a></div>
 </body>
 </html>
-
