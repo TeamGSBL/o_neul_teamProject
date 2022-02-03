@@ -3,19 +3,43 @@
 <mapper namespace="com.gsbl.oneul.recofood.RecoFoodMapper">
 
     <select id="selFoodList" resultType="FoodResultVO">
-        SELECT A.foodcategory AS icook, A.foodnm AS foodnm,A.foodseason AS season,
-               A.fooddiv AS dining,A.canalone AS alone,C.igdkind AS igd FROM o_food A
-        JOIN o_food_igd B
-             ON A.ifood = B.ifood
-        JOIN o_igd C
-             ON B.igdnum = C.igdnum
-        WHERE
-             <if test="icook!=null and icook.length>0">
-                <foreach collection="icook" item="item" open="A.foodcategory !="
-                separator="and" close="and">
-                    ${item}
-                </foreach>
-             </if>
+        SELECT DISTINCT A.ifood,B.key_value AS f_cookery,A.f_nm,
+                        C.key_value AS f_season,D.key_value AS f_worlddiv,A.f_alone,
+            (SELECT group_concat(alkkind) FROM o_alk E
+            JOIN o_food_alk F
+            ON E.alknum = F.alknum
+            WHERE F.ifood = A.ifood )AS alk,
+            (SELECT group_concat(igdkind) FROM o_igd H
+            JOIN o_food_igd I
+            ON H.igdnum = I.igdnum
+            WHERE I.ifood = A.ifood )AS igd FROM o_food A
+        JOIN connect_common B
+        ON B.sub_key = A.f_cookery
+        JOIN connect_common C
+        ON C.sub_key = A.f_season
+        JOIN connect_common D
+        ON D.sub_key = A.f_worlddiv
+        JOIN o_food_igd G
+        ON G.ifood = A.ifood
+        WHERE B.master_key = 2 and C.master_key = 3 and D.master_key = 4
+        <if test="f_cookery!=null">
+            <foreach collection="f_cookery" item="item" >
+                and A.f_cookery != ${item}
+            </foreach>
+        </if>
+        <if test="f_worlddiv!=null">
+            <foreach collection="f_worlddiv" item="item" >
+              and A.f_worlddiv != ${item}
+            </foreach>
+        </if>
+        <if test="igd!=null">
+            <foreach collection="igd" item="item">
+              and  G.ifood not in (SELECT ifood FROM o_food_igd WHERE igdnum = ${item})
+            </foreach>
+        </if>
+        <if test="alone == 1">
+            and f_alone = ${alone}
+        </if>
     </select>
 
 </mapper>

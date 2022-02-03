@@ -13,7 +13,10 @@ public class RecoFoodService {
     private RecoFoodMapper recoFoodMapper;
 
     //검색조건 넣고 결과 리스트로 가져오기
-    public List<FoodResultVO> getList(FoodConditionEntity entity){
-        return recoFoodMapper.FoodResultVO(entity);
+    public FoodResultVO getList(FoodConditionEntity entity){
+        List<FoodResultVO> list = recoFoodMapper.selFoodList(entity);
+        //랜덤으로 하나 추출
+        FoodResultVO vo = list.get((int)(Math.random()* list.size()));
+        return vo;
     }
 }

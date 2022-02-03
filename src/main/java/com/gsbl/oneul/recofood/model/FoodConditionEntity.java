@@ -10,8 +10,8 @@ import java.util.List;
 @Setter
 @ToString
 public class FoodConditionEntity {
-    private List<String> icook;
-    private List<String> dining;
+    private List<String> f_cookery;
+    private List<String> f_worlddiv;
     private List<String> igd;
     private int alone;
 }

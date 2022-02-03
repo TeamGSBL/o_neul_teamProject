@@ -4,8 +4,8 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 
 
-<header class="h50">
-    <div class="flex-container p-lr-20 flex-align-center">
+<header>
+    <div class="bg-pink">
         <h1>HEADER</h1>
     </div>
 </header>

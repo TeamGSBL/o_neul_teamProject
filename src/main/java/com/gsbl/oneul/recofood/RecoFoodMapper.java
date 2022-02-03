@@ -9,5 +9,5 @@ import java.util.List;
 @Mapper
 public interface RecoFoodMapper {
     //조건을 넣어서 리스트를 뽑아보자
-    List<FoodResultVO> FoodResultVO(FoodConditionEntity entity);
+    List<FoodResultVO> selFoodList(FoodConditionEntity entity);
 }
