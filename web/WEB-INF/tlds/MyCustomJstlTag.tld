@@ -9,7 +9,7 @@
 
     <tag>
         <name>profileImg</name>
-        <tag-class>com.koreait.community.MyCustomJstlTag</tag-class>
+        <tag-class>com.gsbl.oneul.MyCustomJstlTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>idVal</name>

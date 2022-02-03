@@ -5,7 +5,9 @@
 
 
 <header class="h50">
-    <div class="flex-container p-lr-20 flex-align-center">
-        <h1>HEADER</h1>
+    <div class="flex-container p-lr-20 flex-align-center" style="background-color: dodgerblue">
+        <h1>오늘 뭐 먹지?</h1>
     </div>
+
+
 </header>

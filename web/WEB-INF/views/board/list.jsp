@@ -8,6 +8,11 @@
     <title></title>
 </head>
 <body>
-    <h1>Huh</h1>
+
+<div>${sessionScope.loginUser.u_nm}님 환영합니다</div>
+<div><a href="/user/mypage/profile"><input type="button" value="마이페이지"></a></div>
+<div><a href="/user/logout"><input type="button" value="로그아웃"></a></div>
+
+
 </body>
 </html>
