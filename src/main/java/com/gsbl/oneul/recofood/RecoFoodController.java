@@ -25,9 +25,9 @@ public class RecoFoodController {
     @ResponseBody
     @PostMapping("/random")
     public FoodResultVO getConditions(@RequestBody FoodConditionEntity entity){
-        System.out.println(entity.getF_cookery());
         System.out.println(entity);
         FoodResultVO vo = service.getList(entity);
+        System.out.println(vo);
         return vo;
     }
     //main 에서 조건 request에 담기
@@ -35,7 +35,9 @@ public class RecoFoodController {
     public String getConditionsMain(FoodConditionEntity entity, RedirectAttributes reAttr){
         System.out.println(entity);
         FoodResultVO vo = service.getList(entity);
-        System.out.println(vo);
+        if(vo==null){
+            reAttr.addFlashAttribute(Const.ERR,Const.ERR_1);
+        }
         reAttr.addFlashAttribute(Const.FOOD,vo);
         reAttr.addFlashAttribute(Const.MAINCON,entity);
         return "redirect:/food/random";

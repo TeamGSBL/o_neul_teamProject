@@ -16,6 +16,9 @@ public class RecoFoodService {
     public FoodResultVO getList(FoodConditionEntity entity){
         List<FoodResultVO> list = recoFoodMapper.selFoodList(entity);
         //랜덤으로 하나 추출
+        if(list.size()==0){
+            return null;
+        }
         FoodResultVO vo = list.get((int)(Math.random()* list.size()));
         return vo;
     }

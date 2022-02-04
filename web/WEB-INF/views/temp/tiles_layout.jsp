@@ -33,5 +33,6 @@
         </section>
         <tiles:insertAttribute name="footer"/>
     </div>
+    <input type="hidden" id="errMsg" value="${requestScope.err}">
 </body>
 </html>
