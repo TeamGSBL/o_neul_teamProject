@@ -6,8 +6,10 @@
 
 <header class="h50">
     <div class="flex-container p-lr-20 flex-align-center" style="background-color: dodgerblue">
-        <h1>오늘 뭐 먹지?</h1>
+        <span style="color: white; font-size: 50px">오늘 뭐 먹지?</span>
+        <span><a href="/board/list">홈</a></span>
     </div>
+
 
 
 </header>
