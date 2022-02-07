@@ -44,13 +44,13 @@
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(loginObj)
                         }).then(function(res) {
-                            location.href='/board/list';
                             return res.json();
                         }).then(function(data) {
                             console.log(data);
                         }).catch(function (err) {
                             console.log(err);
                         });
+                        location.href='/board/list';
 
 
                     },

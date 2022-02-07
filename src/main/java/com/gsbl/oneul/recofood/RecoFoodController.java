@@ -1,6 +1,6 @@
 package com.gsbl.oneul.recofood;
 
-import com.gsbl.oneul.common.Const;
+import com.gsbl.oneul.Utils.Const;
 import com.gsbl.oneul.recofood.model.FoodConditionEntity;
 import com.gsbl.oneul.recofood.model.FoodResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
