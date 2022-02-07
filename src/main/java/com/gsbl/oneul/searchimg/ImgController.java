@@ -19,11 +19,9 @@ public class ImgController {
 
     @GetMapping
     public Map<String,List<SearchImgVO>> getImg(@RequestParam String search){
-        System.out.println(search);
         List<SearchImgVO> list = service.getImg(search);
         Map<String,List<SearchImgVO>> map = new HashMap<>();
         map.put("result",list);
-        System.out.println(list);
         return map;
     }
 }
