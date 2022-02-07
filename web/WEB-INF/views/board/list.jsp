@@ -13,6 +13,7 @@
 <body>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
+
 <div>${sessionScope.loginUser.u_nm}님 환영합니다</div>
 <div>${requestScope.login.u_nm}님 환영합니다~</div>
 <div>${sessionScope.loginUser.u_pfnum} - 플랫폼 넘버</div>
@@ -36,6 +37,7 @@
     <div><input type="hidden" class="g-signin2" data-onsuccess="onSignIn"></input></div>
     <a href="#" onclick="signOut();">Sign out</a>
 </c:if>
+
 
 </body>
 </html>
