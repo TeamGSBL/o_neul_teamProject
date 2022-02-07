@@ -33,13 +33,9 @@ public class MySerachImgApiUtils {
         requestHeaders.put("X-Naver-Client-Secret", "MC8FrRAFfr");
         String responseBody = get(apiURL,requestHeaders);
 
-        System.out.println("네이버에서 받은 결과 = " + responseBody);
-        System.out.println("-----------------------------------------");
         Gson gson = new Gson();
         ImgChannel imgchannel = gson.fromJson(responseBody, ImgChannel.class);
-        for(SearchImgVO vo : imgchannel.getItems()){
-            System.out.println(vo);
-        }
+
         return imgchannel.getItems();
 //        System.out.println(responseBody);
     }

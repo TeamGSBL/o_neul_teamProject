@@ -13,5 +13,7 @@ public class FoodConditionEntity {
     private List<String> f_cookery;
     private List<String> f_worlddiv;
     private List<String> igd;
+    private int f_season;
+    private int alknum;
     private int alone;
 }

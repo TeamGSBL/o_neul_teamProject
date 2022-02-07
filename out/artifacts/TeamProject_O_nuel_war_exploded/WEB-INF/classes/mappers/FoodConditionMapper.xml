@@ -24,6 +24,8 @@
         ON D.sub_key = A.f_worlddiv
         JOIN o_food_igd G
         ON G.ifood = A.ifood
+        JOIN o_food_alk F
+        ON F.ifood = A.ifood
         WHERE B.master_key = 2 and C.master_key = 3 and D.master_key = 4
         <if test="f_cookery!=null">
             <foreach collection="f_cookery" item="item" >
@@ -39,6 +41,12 @@
             <foreach collection="igd" item="item">
               and  G.ifood not in (SELECT ifood FROM o_food_igd WHERE igdnum = ${item})
             </foreach>
+        </if>
+        <if test="f_season>0">
+            and A.f_season = ${f_season}
+        </if>
+        <if test="alknum>0">
+            and F.alknum = ${alknum}
         </if>
         <if test="alone == 1">
             and f_alone = ${alone}

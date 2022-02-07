@@ -1,4 +1,4 @@
-package com.gsbl.oneul;
+package com.gsbl.oneul.common;
 
 public class Const {
     public static final String FOOD = "food";

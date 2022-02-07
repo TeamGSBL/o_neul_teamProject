@@ -1,5 +1,44 @@
 let container = document.getElementById('map');//지도를 담을 영역의 DOM 레퍼런스
 let restboxElem = document.querySelector('#restaurant_box');//마커 클릭시 보여줄 인포공간
+
+//카카오 json을 통해 음식점 디테일 얻어오기
+const getKakaoJson = (ijmt)=>{
+    fetch(`/map/${ijmt}`,{
+        'headers': { 'Content-Type': 'application/json;charset=utf-8' }
+    })
+        .then(res=>res.json())
+        .then((data)=>{
+            console.log(data);
+            restboxElem.append(makeJmtDiv(data));
+        });
+}
+//item을 받고 div만들어주기
+const makeJmtDiv = (item)=>{
+    let divElem = document.createElement('div');
+    let imgElem = document.createElement('img');
+    let spanElemNm = document.createElement('span');
+
+    divElem.classList.add('flex-c-c');
+
+    imgElem.classList.add('rcrest-img');
+    imgElem.addEventListener('error',e=>{
+        imgElem.src='/res/img/imgerr.jpg';
+    });
+    imgElem.src= item.photo.photoList[0].list[0].orgurl;
+
+    spanElemNm.classList.add('rcrest-span-nm');
+    let addr = item.basicInfo.address.region.newaddrfullname;
+    spanElemNm.innerHTML = `
+        [${addr}] ${item.basicInfo.placenamefull}
+    `;
+
+    divElem.append(imgElem);
+    divElem.append(spanElemNm);
+    return divElem;
+}
+
+
+
 //현재위치를 받아서 좌표에 찍기, 좌표값을 이용해 현재위치 주소값 알기
 function getMapCurAddrKeyWord(foodNm) {
     navigator.geolocation.getCurrentPosition(function(pos) {
@@ -22,11 +61,9 @@ function getMapCurAddrKeyWord(foodNm) {
         //코드를 주소로 바꾸었을때 콜백함수
         let cordAddrCallback = function(result, status) {
             if (status === kakao.maps.services.Status.OK) {
-                console.log(result[0].address.address_name);
-                let addrArr = result[0].address.address_name.split(' ');
-                let keyword = addrArr[0]+' '+addrArr[1]+' '+addrArr[2]+' '+foodNm;
-                console.log(keyword);
-                searchPlaces(keyword);
+
+                searchPlaces(foodNm);
+
             }
         };
 
@@ -48,12 +85,11 @@ function getMapCurAddrKeyWord(foodNm) {
         function searchPlaces(keyword) {
 
             if (!keyword.replace(/^\s+|\s+$/g, '')) {
-                alert('키워드를 입력해주세요!');
                 return false;
             }
 
             // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-            ps.keywordSearch( keyword, placesSearchCB);
+            ps.keywordSearch( keyword, placesSearchCB,{location:options.center,radius:5000,category_group_code:'FD6'});
         }
         // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
         function placesSearchCB(data, status, pagination) {
@@ -64,8 +100,8 @@ function getMapCurAddrKeyWord(foodNm) {
                 console.log(data);
 
             } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-
-                alert(`주변에 ${foodNm}을 파는 식당이 없습니다 ㅜㅜ.`);
+                let maptitleElem = document.querySelector('#map_title');
+                maptitleElem.innerHTML = `주변 ${foodNm} 식당이 없습니다`;
                 return;
 
             } else if (status === kakao.maps.services.Status.ERROR) {
@@ -87,25 +123,36 @@ function getMapCurAddrKeyWord(foodNm) {
             removeMarker();
 
             for ( var i=0; i<places.length; i++ ) {
+                //지역이름 가져오기(안씀)
+                let addrArr = places[i].address_name.split(' ');
+                let addr = addrArr[0]+' '+addrArr[1];
 
                 // 마커를 생성하고 지도에 표시합니다
                 var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
                     marker = addMarker(placePosition, i);
 
+                console.log(places[i].id);
+                getKakaoJson(places[i].id);
+
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                 // LatLngBounds 객체에 좌표를 추가합니다
                 bounds.extend(placePosition);
+                //마커 클릭시 이벤트 (사용x)  todo 나중에 쓸일있을까봐 걸어놓음
+                /*
                 (function(marker, place) {
                     kakao.maps.event.addListener(marker, 'click', function() {
+
                         restboxElem.innerHTML = null;
                         restboxElem.innerHTML =`
+                            <h1>${place.place_name}</h1>
                             <div>${place.address_name}</div>
                             <div>${place.phone}</div>
-                            <div>${place.place_name}</div>
                             <a href="${place.place_url}">링크</a>
                         `;
                     });
                 })(marker, places[i]);
+
+                 */
 
                 // 마커와 검색결과 항목에 mouseover 했을때
                 // 해당 장소에 인포윈도우에 장소명을 표시합니다
