@@ -18,11 +18,6 @@
 </form>
 <span><a href="/user/join"><input type="button" value="회원가입"></a></span>
 
-
-
-
-
-
 <%--네이버--%>
 <div id="naver_id_login" >
     <a id="naverIdLogin_loginButton">
@@ -77,13 +72,11 @@
                         }).then(function(res) {
                             return res.json();
                         }).then(function(data) {
+                            location.href='/board/lists';
                             console.log(data);
                         }).catch(function (err) {
                             console.log(err);
                         });
-                        location.href='/board/list';
-
-
                     },
                     fail: function (error) {
                         console.log(error)

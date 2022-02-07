@@ -50,7 +50,7 @@
                         }).catch(function (err) {
                             console.log(err);
                         });
-                        location.href='/board/list';
+                        location.href='/board/lists';
 
 
                     },

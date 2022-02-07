@@ -79,20 +79,17 @@ public class UserService {
         }
     }
 
-    public UserVO kakaoLogin(UserVO vo) {
+    public void kakaoLogin(UserVO vo) {
         vo.setU_pfnum(3);
         vo.setU_pw("0");
         vo.setU_pw(BCrypt.hashpw(vo.getU_pw(), BCrypt.gensalt()));
         vo.setU_id(vo.getU_email().substring(0, vo.getU_email().indexOf("@")));
         UserVO loginUser = selUser(vo);
-        System.out.println(loginUser);
         if(loginUser == null) {
             mapper.join(vo);
             loginUser = selUser(vo);
         }
         hs.setAttribute("loginUser", loginUser);
-
-        return loginUser;
     }
     public UserVO selUser(UserVO vo){
         return mapper.selUser(vo);

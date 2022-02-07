@@ -45,7 +45,7 @@
             console.log(err);
         });
 
-        opener.location.href=`/board/list`;
+        opener.location.href=`/board/lists`;
         window.close();
 
     }

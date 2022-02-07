@@ -79,6 +79,7 @@ public class UserController {
 
 
 
+
     @GetMapping("/user/logout")
     public String logout(HttpSession hs, HttpServletRequest req) {
         hs.invalidate();
@@ -98,10 +99,13 @@ public class UserController {
     public void kakao(){}
 
     @PostMapping("/user/kakao")
-    public String kakaoProc(@RequestBody UserVO vo,RedirectAttributes reattr) {
-        reattr.addFlashAttribute("login", service.kakaoLogin(vo));
+    @ResponseBody
+    public Map<String, Integer> kakaoProc(@RequestBody UserVO vo) {
+       service.kakaoLogin(vo);
 
-        return"redirect:/board/list";
+       Map<String, Integer> result = new HashMap<>();
+       result.put("result", 1);
+       return result;
     }
 
     @GetMapping("/naver/nlogin")
@@ -113,8 +117,9 @@ public class UserController {
     @PostMapping("/naver/ncallback")
     public String ncallbackProc(@RequestBody UserVO vo) {
         service.naverLogin(vo);
-        return"redirect:/board/list";
+        return"redirect:/board/lists";
     }
+
     @GetMapping("/user/google")
     public void google(){}
 
