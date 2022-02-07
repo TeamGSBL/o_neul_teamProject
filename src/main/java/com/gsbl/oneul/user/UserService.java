@@ -3,6 +3,7 @@ package com.gsbl.oneul.user;
 import com.gsbl.oneul.Utils.Const;
 import com.gsbl.oneul.Utils.MyFileUtils;
 import com.gsbl.oneul.Utils.UserUtils;
+import com.gsbl.oneul.model.UserDTO;
 import com.gsbl.oneul.model.UserVO;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,19 @@ public class UserService {
     @Autowired
     private HttpSession hs;
 
+    //로컬 회원가입
     public int join(UserVO vo){
         String plainPw = vo.getU_pw();
-        vo.setU_pw(BCrypt.hashpw(vo.getU_pw(), BCrypt.gensalt()));
+        vo.setU_pw(BCrypt.hashpw(vo.getU_pw(), BCrypt.gensalt())); //암호화
+        vo.setU_pfnum(1);
         int result = mapper.join(vo);
         vo.setU_pw(plainPw);
         return result;
     }
 
+
+
+    //로컬 로그인
     public int login(UserVO vo) {
         UserVO loginUser = null;
         try {
@@ -57,15 +63,58 @@ public class UserService {
         return 3; //비밀번호 다름
     }
 
-    public int platformLogin(UserVO vo) {
+    public void naverLogin(UserVO vo) {
+        vo.setU_pfnum(2);
         vo.setU_pw("0");
+        vo.setU_pw(BCrypt.hashpw(vo.getU_pw(), BCrypt.gensalt()));
         vo.setU_id(vo.getU_email().substring(0, vo.getU_email().indexOf("@")));
-        hs.setAttribute("loginUser", vo);
-
-        int result = mapper.join(vo);
-        return result;
+        UserVO loginUser = selUser(vo);
+        if(loginUser != null) {
+            hs.setAttribute("loginUser", loginUser);
+        }
+        if(loginUser == null) {
+            mapper.join(vo);
+            UserVO login = selUser(vo);
+            hs.setAttribute("loginUser", login);
+        }
     }
 
+    public UserVO kakaoLogin(UserVO vo) {
+        vo.setU_pfnum(3);
+        vo.setU_pw("0");
+        vo.setU_pw(BCrypt.hashpw(vo.getU_pw(), BCrypt.gensalt()));
+        vo.setU_id(vo.getU_email().substring(0, vo.getU_email().indexOf("@")));
+        UserVO loginUser = selUser(vo);
+        System.out.println(loginUser);
+        if(loginUser == null) {
+            mapper.join(vo);
+            loginUser = selUser(vo);
+        }
+        hs.setAttribute("loginUser", loginUser);
+
+        return loginUser;
+    }
+    public UserVO selUser(UserVO vo){
+        return mapper.selUser(vo);
+    }
+
+    public void googleLogin(UserVO vo) {
+        vo.setU_pfnum(4);
+        vo.setU_pw("0");
+        vo.setU_pw(BCrypt.hashpw(vo.getU_pw(), BCrypt.gensalt()));
+        vo.setU_id(vo.getU_email().substring(0, vo.getU_email().indexOf("@")));
+        UserVO loginUser = selUser(vo);
+        if(loginUser != null) {
+            hs.setAttribute("loginUser", loginUser);
+        }
+        if(loginUser == null) {
+            mapper.join(vo);
+            UserVO login = selUser(vo);
+            hs.setAttribute("loginUser", login);
+        }
+    }
+
+    //프로필 사진 업로드
     public String uploadProfileImg(MultipartFile mf){
         if(mf == null) { return null;}
 
@@ -91,6 +140,17 @@ public class UserService {
         loginUser.setU_profileimg(fileNm);
 
         return fileNm;
+    }
+
+    public int changePassword(UserDTO dto){
+        dto.setIuser(userUtils.getLoginUserPk());
+        UserVO vo = mapper.selUser(dto);
+        if(!BCrypt.checkpw(dto.getCurrentupw(), vo.getU_pw())){
+            return 2; //현재 비밀번호 다름
+        }
+        String hashedPw = BCrypt.hashpw(dto.getU_pw(), BCrypt.gensalt());
+        dto.setU_pw(hashedPw);
+        return mapper.updUser(dto);
     }
 
 

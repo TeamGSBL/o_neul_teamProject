@@ -23,6 +23,9 @@
     <input type="file" id="profile-file" class="hidden" accept="image/*">
     <div>아이디 : ${sessionScope.loginUser.u_id}</div>
     <div>이름 : ${sessionScope.loginUser.u_nm}</div>
+        <c:if test="${sessionScope.loginUser.u_pfnum == 1}">
+            <div><a href="/user/mypage/password">비밀번호 변경</a></div>
+        </c:if>
 </div>
 </body>
 </html>

@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class UserVO {
     private int iuser;
+    private int u_pfnum;
     private String u_id;
     private String u_pw;
     private String u_nm;
