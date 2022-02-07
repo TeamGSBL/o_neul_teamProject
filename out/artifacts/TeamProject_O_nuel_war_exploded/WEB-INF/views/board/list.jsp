@@ -10,8 +10,7 @@
 <body>
 
 
-    <h1>아리따움</h1>
-
+    <h1>Huh</h1>
 
 </body>
 </html>
